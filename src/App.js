@@ -1,16 +1,56 @@
-import GreetingList from './components/GreetingList';
-import Header from './components/Header';
+import { useState } from 'react';
+// import { appConfig } from './constants/app';
+import { Goals } from './components/Goals';
+import { GoalForm } from './components/GoalForm';
+import { Button } from './components/ui/Button';
+// import Header from './components/header';
 
-import * as Values from './exports/namedExports';
+import { FILTER_GOAL } from './constants/goals';
 
 function App() {
+  const [filter, setFilter] = useState(FILTER_GOAL.ALL);
+
+  const onFilter = (newFilter) => {
+    console.log('newFilter', newFilter);
+    setFilter(newFilter);
+  };
+
   return (
-    <div className="App">
-      <Header />
-      <GreetingList />
-      <hr />
-      <h3>Exports Demo</h3>
-      {Values.VALUE_1} {Values.VALUE_2} {Values.VALUE_3} {Values.VALUE_4}
+    <div className="container">
+      {/* <div className="row">
+        <Header app={appConfig} />
+      </div> */}
+      <div className="row mb-5">
+        <div className="col-12 shadow mb-2 p-3">
+          <GoalForm />
+          <hr />
+          <div className="d-flex justify-content-between col-6">
+            <Button
+              text="ჩემი ყველაზე მიზანი"
+              onClick={() => {
+                onFilter(FILTER_GOAL.ALL);
+              }}
+            />
+            <Button
+              text="აქტიური მიზნები"
+              onClick={() => {
+                onFilter(FILTER_GOAL.ACTIVE);
+              }}
+            />
+            <Button
+              onClick={() => {
+                onFilter(FILTER_GOAL.COMPLETED);
+              }}
+              text="შესრულებული მიზნები"
+            />
+          </div>
+        </div>
+        <div className="col-12 shadow p-3">
+          <h2>ჩემი მიზნები:</h2>
+          <hr />
+          <Goals filter={filter} />
+        </div>
+      </div>
     </div>
   );
 }
