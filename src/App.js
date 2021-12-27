@@ -14,6 +14,7 @@ import { FILTER_GOAL, goals } from './constants/goals';
 
 function App() {
   const [filter, setFilter] = useState(FILTER_GOAL.ALL);
+  const [editing, setEditing] = useState(-1);
   const [goalList, setGoalList] = useState(goals);
 
   const onFilter = (newFilter) => {
@@ -22,8 +23,21 @@ function App() {
   };
 
   const addNewGoal = (newGoal) => {
-    const newList = [...goalList, newGoal];
-    setGoalList(newList);
+    if (editing !== -1) {
+      const newList = [
+        ...goalList.slice(0, editing),
+        {
+          ...goalList[editing],
+          ...newGoal,
+        },
+        ...goalList.slice(editing + 1),
+      ];
+      setGoalList(newList);
+      setEditing(-1);
+    } else {
+      const newList = [...goalList, newGoal];
+      setGoalList(newList);
+    }
   };
 
   const removeGoal = (goalId) => {
@@ -31,23 +45,24 @@ function App() {
     setGoalList(newList);
   };
 
+  const onEdit = (elIndex) => {
+    setEditing(elIndex);
+  };
+
   return (
     <div className="container">
-      {/* <div className="row">
-        <Header app={appConfig} />
-      </div> */}
       <div className="row mb-5">
         <div className="col-12 shadow mb-2 p-3">
-          <GoalForm addNewGoal={addNewGoal} />
+          <GoalForm addNewGoal={addNewGoal} editing={editing} goalItem={goalList[editing]} />
           <hr />
           <div className="d-flex justify-content-between col-6">
-            <GoalFilters onFilter={onFilter} filter={filter} />
+            <GoalFilters onFilter={onFilter} filter={filter} disabled={!goalList.length} />
           </div>
         </div>
         <div className="col-8 shadow p-3">
           <h2>ჩემი მიზნები:</h2>
           <hr />
-          <Goals filter={filter} goals={goalList} removeGoal={removeGoal} />
+          <Goals filter={filter} goals={goalList} removeGoal={removeGoal} onEdit={onEdit} />
         </div>
       </div>
     </div>

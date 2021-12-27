@@ -1,6 +1,9 @@
-import { Button } from '../ui';
+import propTypes from 'prop-types';
+import { Button, Input } from '../ui';
 
-export const GoalForm = ({ addNewGoal }) => {
+export const GoalForm = ({ addNewGoal, editing, goalItem }) => {
+  const isEditing = editing !== -1;
+
   const onSubmit = (event) => {
     event.preventDefault();
     // ემთხვევა input-ების name მნიშვნელობას
@@ -12,8 +15,12 @@ export const GoalForm = ({ addNewGoal }) => {
       completed: completed.checked,
       id: Math.round(Math.random() * 1000000),
     };
+    if (isEditing) {
+      delete newGoal.id;
+    }
 
     addNewGoal(newGoal);
+
     title.value = '';
     completed.checked = false;
     description.value = '';
@@ -22,35 +29,53 @@ export const GoalForm = ({ addNewGoal }) => {
   return (
     <form className="mb-3" onSubmit={onSubmit}>
       <div className="mb-3">
-        <label htmlFor="goalTitle" className="form-label">
-          ჩემი მიზანი
-        </label>
-        <input
+        <Input
+          label="ჩემი მიზანი"
+          name="title"
+          placeholder="ჩემი მიზანი"
+          value={isEditing ? goalItem.title : ''}
+          required
           type="text"
           className="form-control"
           id="goalTitle"
-          placeholder="ჩემი მიზანი"
-          name="title"
-          required
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="description" className="form-label">
-          მიზნის აღწერილობა
-        </label>
-        <textarea className="form-control" id="description" rows="3" name="description"></textarea>
+        <Input
+          label="მიზნის აღწერილობა"
+          input="textarea"
+          className="form-control"
+          id="description"
+          rows="3"
+          name="description"
+          value={isEditing ? goalItem.description : ''}
+        />
       </div>
 
       <div className="mb-3 form-check">
-        <label htmlFor="completed" className="form-check-label">
-          მიზანი შესრულდა
-        </label>
-        <input type="checkbox" id="completed" className="form-check-input" name="completed" />
+        <Input
+          label="მიზანი შესრულდა"
+          type="checkbox"
+          id="completed"
+          className="form-check-input"
+          name="completed"
+          checked={isEditing ? goalItem.completed : false}
+          value={isEditing ? goalItem.completed : ''}
+        />
       </div>
 
       <div className="mb-3">
-        <Button className="btn btn-primary" type="submit" text="მიზნის შექმნა" />
+        <Button
+          className={`btn ${isEditing ? 'btn-outline-primary' : 'btn-primary'}`}
+          type="submit"
+          text={isEditing ? 'რედაქტირება' : 'მიზნის შექმნა'}
+        />
       </div>
     </form>
   );
+};
+
+GoalForm.propTypes = {
+  editing: propTypes.number.isRequired,
+  addNewGoal: propTypes.func.isRequired,
 };

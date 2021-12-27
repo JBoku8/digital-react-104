@@ -1,7 +1,9 @@
+import propTypes from 'prop-types';
+
 import { GoalItem } from '../GoalItem';
 import { FILTER_GOAL } from '../../constants/goals';
 
-export const Goals = ({ filter = FILTER_GOAL.ALL, goals = [], removeGoal }) => {
+export const Goals = ({ filter = FILTER_GOAL.ALL, goals = [], removeGoal, onEdit }) => {
   const renderGoals = () => {
     let filtered = [...goals];
 
@@ -23,13 +25,13 @@ export const Goals = ({ filter = FILTER_GOAL.ALL, goals = [], removeGoal }) => {
       });
     }
 
-    return filtered.map((goal) => {
+    return filtered.map((goal, index) => {
       return (
         <div className="d-flex w-100 justify-content-between" key={goal.id}>
           <GoalItem title={goal.title} completed={goal.completed} />
 
           <div>
-            <button className="btn btn-outline-warning me-2">
+            <button className="btn btn-outline-warning me-2" onClick={() => onEdit(index)}>
               <i className="bi bi-pencil"></i>
             </button>
             <button className="btn btn-outline-danger" onClick={() => removeGoal(goal.id)}>
@@ -46,4 +48,9 @@ export const Goals = ({ filter = FILTER_GOAL.ALL, goals = [], removeGoal }) => {
       <div className="list-group">{renderGoals()}</div>
     </div>
   );
+};
+
+Goals.propTypes = {
+  removeGoal: propTypes.func.isRequired,
+  onEdit: propTypes.func.isRequired,
 };

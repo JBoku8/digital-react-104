@@ -1,3 +1,5 @@
+import propTypes from 'prop-types';
+
 import { Button } from '../ui';
 import { FILTER_GOAL } from '../../constants/goals';
 
@@ -6,7 +8,7 @@ const defaultClassName = 'btn btn-outline-success';
 
 const getClassName = (check) => (check ? activeClassName : defaultClassName);
 
-export const GoalFilters = ({ onFilter, filter }) => {
+export const GoalFilters = ({ onFilter, filter, disabled }) => {
   return (
     <>
       <Button
@@ -15,6 +17,7 @@ export const GoalFilters = ({ onFilter, filter }) => {
         onClick={() => {
           onFilter(FILTER_GOAL.ALL);
         }}
+        disabled={disabled}
       />
 
       <Button
@@ -23,6 +26,7 @@ export const GoalFilters = ({ onFilter, filter }) => {
         onClick={() => {
           onFilter(FILTER_GOAL.ACTIVE);
         }}
+        disabled={disabled}
       />
 
       <Button
@@ -31,7 +35,19 @@ export const GoalFilters = ({ onFilter, filter }) => {
         onClick={() => {
           onFilter(FILTER_GOAL.COMPLETED);
         }}
+        disabled={disabled}
       />
     </>
   );
+};
+
+GoalFilters.defaultProps = {
+  disabled: false,
+  filter: FILTER_GOAL.ALL,
+};
+
+GoalFilters.propTypes = {
+  disabled: propTypes.bool.isRequired,
+  onFilter: propTypes.func.isRequired,
+  filter: propTypes.oneOf(Object.values(FILTER_GOAL)),
 };
