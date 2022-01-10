@@ -6,6 +6,7 @@ import { GoalFilters } from '../../components/GoalFilters';
 // import Header from './components/header';
 
 import { FILTER_GOAL, goals } from '../../constants/goals';
+import { withAuthProtection } from '../../hoc/withAuthProtection';
 
 function Home(props) {
   const [filter, setFilter] = useState(FILTER_GOAL.ALL);
@@ -64,4 +65,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default withAuthProtection(Home);

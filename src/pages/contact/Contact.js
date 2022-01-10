@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
+import { withAuthProtection } from '../../hoc/withAuthProtection';
 // import { Input } from '../../components/ui';
 
 function Contact(props) {
@@ -121,4 +122,4 @@ function Contact(props) {
   );
 }
 
-export default Contact;
+export default withAuthProtection(Contact);
