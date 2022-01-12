@@ -1,20 +1,12 @@
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useEffect } from 'react/cjs/react.development';
 
 import { HOME_PATH, CONTACT_PATH, LOGIN_PATH } from '../../constants/routes';
-import { useAuthState } from '../../hook/useAuthState';
+import { useAuth } from '../../hook/useAuthState';
 
 import './Navigation.css';
 
 function Navigation() {
-  const { isLoggedIn: loggedInState, logOut } = useAuthState();
-
-  const [isLoggedIn, setIsLoggedIn] = useState(loggedInState);
-
-  useEffect(() => {
-    setIsLoggedIn(loggedInState);
-  }, [loggedInState]);
+  const { auth, logOut } = useAuth();
 
   return (
     <nav
@@ -33,12 +25,12 @@ function Navigation() {
         Contact
       </NavLink>
 
-      {!isLoggedIn && (
+      {!auth.isLoggedIn && (
         <NavLink to={LOGIN_PATH} className="nav-link">
           Login
         </NavLink>
       )}
-      {isLoggedIn && (
+      {auth.isLoggedIn && (
         <button className="btn btn-link" onClick={logOut}>
           Log Out
         </button>

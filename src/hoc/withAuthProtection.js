@@ -1,11 +1,11 @@
 import { Navigate } from 'react-router-dom';
-import { useAuthState } from '../hook/useAuthState';
+import { useAuth } from '../hook/useAuthState';
 
 export const withAuthProtection = (Component) => {
   const WithAuthProtection = (props) => {
-    const authStatus = useAuthState();
+    const { auth } = useAuth();
 
-    return authStatus.isLoggedIn ? <Component {...props} /> : <Navigate to="/login" />;
+    return auth.isLoggedIn ? <Component {...props} /> : <Navigate to="/login" />;
   };
 
   return WithAuthProtection;

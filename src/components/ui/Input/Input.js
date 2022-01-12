@@ -31,6 +31,8 @@ export const Input = forwardRef(
       setChecked(checked);
     }, [checked]);
 
+    console.log('INPUT RENDERING...');
+
     const renderInput = () => {
       if (input === 'textarea') {
         return (

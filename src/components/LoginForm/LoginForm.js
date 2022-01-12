@@ -1,20 +1,25 @@
+import { memo } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { Input, Button } from '../ui';
 
-import { HOME_PATH } from '../../constants/routes';
 import { loginAsync } from '../../api/auth';
-import { TOKEN_KEY } from '../../constants/app';
+import { useAuth } from '../../hook/useAuthState';
 
-const LoginForm = () => {
+const LoginForm = ({ customSubmit }) => {
   const { register, handleSubmit } = useForm();
-  const navigate = useNavigate();
+  const { logIn } = useAuth();
 
   const onSubmit = async ({ email, password }) => {
     const response = await loginAsync(email, password);
-    localStorage.setItem(TOKEN_KEY, response.token);
-    navigate(HOME_PATH);
+    if (response.success) {
+      logIn(response.data.token);
+    } else {
+      // TODO: show error
+    }
+    customSubmit(response);
   };
+
+  console.log('LOGIN FORM RENDERING...');
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -52,4 +57,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default memo(LoginForm);
