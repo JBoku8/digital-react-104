@@ -7,7 +7,7 @@ import { Card } from '../../components/Card';
 // import Header from './components/header';
 
 import { FILTER_GOAL, goals } from '../../constants/goals';
-import { withAuthProtection } from '../../hoc/withAuthProtection';
+// import { withAuthProtection } from '../../hoc/withAuthProtection';
 import { useHover } from '../../hook/useHover';
 
 function Home() {
@@ -73,4 +73,5 @@ function Home() {
   );
 }
 
-export default withAuthProtection(Home);
+// withAuthProtection(
+export default Home;
