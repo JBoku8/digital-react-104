@@ -1,10 +1,10 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Card } from '../../components/Card/Card';
 import LoginForm from '../../components/LoginForm/LoginForm';
 
-const refType = {
-  name: 'Super admin',
-};
+// const refType = {
+//   name: 'Super admin',
+// };
 
 // const numbers = [1, 2, 3, 4, 5];
 
