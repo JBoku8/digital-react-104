@@ -10,6 +10,8 @@ import { FILTER_GOAL, goals } from '../../constants/goals';
 // import { withAuthProtection } from '../../hoc/withAuthProtection';
 import { useHover } from '../../hook/useHover';
 
+import css from './Home.module.css';
+
 function Home() {
   const [filter, setFilter] = useState(FILTER_GOAL.ALL);
   const [editing, setEditing] = useState(-1);
@@ -52,7 +54,7 @@ function Home() {
     <>
       <div className="row mb-5">
         <div className="col-md-12">
-          <h1 className="text-muted" ref={hoverRef}>
+          <h1 className={`text-muted ${css.title}`} ref={hoverRef}>
             I Love👌: {isHovering ? 'Rocket Science 🚀' : 'Programming 🧑‍💻'}
           </h1>
         </div>

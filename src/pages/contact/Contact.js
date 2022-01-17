@@ -4,6 +4,8 @@ import classNames from 'classnames';
 // import { withAuthProtection } from '../../hoc/withAuthProtection';
 // import { Input } from '../../components/ui';
 
+import './styles.scss';
+
 function Contact(props) {
   const [value, setValue] = useState(0);
   const [number, setNumber] = useState(0);
@@ -47,7 +49,7 @@ function Contact(props) {
   return (
     <div className="row">
       <div className="col-md-12">
-        <h2>Random Number - {value}</h2>
+        <h2 className="title">Random Number - {value}</h2>
         <button
           onClick={() => setValue(Math.floor(Math.random() * 100))}
           className="btn btn-primary"
