@@ -1,5 +1,4 @@
-import { useRef, useState } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import { useRef, useState, useEffect } from 'react';
 
 export const useHover = () => {
   const [value, setValue] = useState(false);
