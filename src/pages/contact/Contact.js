@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useReducer } from 'react';
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 // import { withAuthProtection } from '../../hoc/withAuthProtection';
@@ -6,38 +6,37 @@ import classNames from 'classnames';
 
 import './styles.scss';
 
-function Contact(props) {
-  const [value, setValue] = useState(0);
-  const [number, setNumber] = useState(0);
+const actionTypes = {
+  SET_VALUE: 'SET_VALUE',
+  SET_NUMBER: 'SET_NUMBER',
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case actionTypes.SET_NUMBER:
+      return { ...state, number: action.payload };
+
+    case actionTypes.SET_VALUE:
+      return { ...state, value: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+const initialState = {
+  value: 0,
+  number: 0,
+};
+
+function Contact() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const {
     handleSubmit,
     register,
     formState: { errors, isValid, touchedFields },
   } = useForm();
-
-  // useEffect(() => {
-  //   console.log('CONTACT PAGE RENDERING...');
-  // });
-
-  useEffect(() => {
-    // console.log('ერთჯერადი');
-    // document.body.style.backgroundColor = 'red';
-
-    return () => {
-      // cleanup function
-      // console.log('გამოსახულებების გასუფთავება');
-      // document.body.style.backgroundColor = 'white';
-    };
-  }, []);
-
-  useEffect(() => {
-    // console.log('ახალი რიცხვი დაგენერირდა', value);
-    // setNumber(value);
-  }, [value]);
-
-  useEffect(() => {
-    // setValue(number + 1);
-  }, [number]);
 
   // CUSTOM LOGIC
 
@@ -49,17 +48,27 @@ function Contact(props) {
   return (
     <div className="row">
       <div className="col-md-12">
-        <h2 className="title">Random Number - {value}</h2>
+        <h2 className="title">Random Number - {state.value}</h2>
         <button
-          onClick={() => setValue(Math.floor(Math.random() * 100))}
+          onClick={() => {
+            dispatch({
+              type: actionTypes.SET_VALUE,
+              payload: Math.floor(Math.random() * 100),
+            });
+          }}
           className="btn btn-primary"
         >
           Generate Number
         </button>
 
-        <h2>Random Big Number - {number}</h2>
+        <h2>Random Big Number - {state.number}</h2>
         <button
-          onClick={() => setNumber(Math.floor(Math.random() * 10000))}
+          onClick={() => {
+            dispatch({
+              type: actionTypes.SET_NUMBER,
+              payload: Math.floor(Math.random() * 10000),
+            });
+          }}
           className="btn btn-warning"
         >
           Generate Big Number

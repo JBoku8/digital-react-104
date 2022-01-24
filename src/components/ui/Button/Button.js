@@ -5,7 +5,7 @@ export const Button = ({
   onClick,
   disabled,
 }) => {
-  console.log('BUTTON RENDERING...');
+  // console.log('BUTTON RENDERING...');
   return (
     <button className={className} type={type} onClick={onClick} disabled={disabled}>
       {text}
